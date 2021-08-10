@@ -88,7 +88,7 @@ const no10 = filterEqual([1, 2, 3, 10], 10);
 
 //Keyof
 
-function returnProp<T, Key extends keyof T>(obj: T, key: Key) {
+function returnProp<T, Key extends keyof T>(obj: T, key: Key): T[Key] {
   return obj[key];
 }
 
@@ -102,8 +102,17 @@ type WereWolfHasName = HasName<WereWof>;
 
 const objMap: { [key: string]: number } = { x: 10, y: 10 };
 type LobiMap = { [key in keyof LobiSomi]: key };
+const teste: LobiSomi = {
+  hp: 10,
+  attack: () => {},
+  talk: () => {},
+};
 type LobiMapString = {
-  [key in keyof LobiSomi as LobiSomi[key] extends number ? key : never]: number;
+  [key in keyof LobiSomi as LobiSomi[key] extends number ? key : never]: string;
+};
+
+const testeMap: LobiMapString = {
+  hp: "10",
 };
 
 //structural type system
@@ -116,8 +125,10 @@ interface AnotherPoint {
 
 declare function takePoint(p: Point): number;
 
-const p = { x: 10, y: 10 } as AnotherPoint;
-// takePoint(p);
+const point = { x: 10, y: 10, z: 20 } as Point;
+const anotherPoint = { x: 10, y: 10, z: 20 } as AnotherPoint;
+takePoint(point);
+takePoint(anotherPoint);
 
 //Migration
 
