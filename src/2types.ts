@@ -1,14 +1,16 @@
 // primitivos
 
-const hi: string = "hi";
+const abc = "abc";
+let hi: string = "hi";
 let hello: number = 10;
 let foo = true;
 let strictGreet: "hi" | "hello" = "hi";
 
-hello = hi;
+// hello = hi;
 strictGreet = "hello";
 strictGreet = hello;
 strictGreet = hi;
+hi = strictGreet;
 
 // arrays e objetos
 
@@ -27,3 +29,6 @@ fnHi = () => "hi";
 fnHi = () => "hello";
 fnStrictHi = () => "hi";
 fnStrictHi = () => "hello";
+fnStrictHi = (num: number) => "hi";
+
+export default {};

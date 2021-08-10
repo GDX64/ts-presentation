@@ -55,31 +55,15 @@ testResizable(assertedObj);
 
 plainObj.doNothing;
 assertedObj.doNothing;
+assertedObj.extraMethod;
 
-//Narrowing
-
-function narrowDown(hello: unknown) {
-  if (typeof hello === "string") {
-    return hello;
-  }
-  return "unknown";
+interface Monster {
+  attack(): void;
 }
 
-function filtering(hello: { name?: string } | null): string {
-  return hello?.name ?? "default";
+class Pokemon implements Monster {
+  name = "pickatchu";
+  attack() {}
 }
 
-//guards
-
-function hasProp<K extends PropertyKey>(
-  value: object,
-  prop: K
-): value is Record<K, unknown> {
-  return prop in value ? true : false;
-}
-
-function hasName(hello: unknown) {
-  if (typeof hello !== "object" || !hello) return;
-  if (!hasProp(hello, "name")) return;
-  hello.name;
-}
+const monster = { attack() {} } as Monster as Pokemon;
