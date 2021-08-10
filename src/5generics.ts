@@ -4,7 +4,7 @@ class Container<T> {
   constructor(public value: T) {}
 }
 
-const containsString = new Container<"hi" | "hello">("teste");
+const containsString = new Container<"hi" | "hello">("hi");
 
 function filterEqual<T>(arr: T[], something: T): Array<T> {
   return arr.filter((element) => element == something);
@@ -29,4 +29,5 @@ const blueSquare: Square = { color: "blue", sideLength: 8 };
 
 const redSquareSideLength = returnProp(redSquare, "sideLength");
 const whiteSquareColor = returnProp(whiteSquare, "color");
-const blueSquareLabel = returnProp(blueSquare, "label");
+// const blueSquareLabel = returnProp(blueSquare, "label");
+console.log("hello");
