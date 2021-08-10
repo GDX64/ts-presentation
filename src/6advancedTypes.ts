@@ -24,7 +24,8 @@ type WhatKindOfName2 = NameWhat<{ hello: number }>;
 
 //Mapped types
 
-const objMap: { [key: string]: number } = { x: 10, y: 10 };
+export type GenericMap<T> = { [key: string]: T };
+const objMap: GenericMap<number> = { x: 10, y: 10 };
 objMap.hello = 10;
 const result = objMap.askdfad;
 const arrResult = [10][10];
@@ -39,9 +40,7 @@ type LobiFiltered = Filter<Lobisomi, "attack" | "name">;
 
 type Filtered = Filter<Lobisomi, "attack">;
 
-export function helloThere<T extends number | string>(arg: T) {
-  return arg;
-}
+export type Mapped<T, K> = { [Key in keyof T]: K };
 
 //Roubei
 type A = Pick<Lobisomi, "attack">;

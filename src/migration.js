@@ -12,3 +12,9 @@ export function mapObj(obj, fnDo) {
   const arrMapped = Object.keys(obj).map((key) => [key, fnDo(obj[key])]);
   return Object.fromEntries(arrMapped);
 }
+
+class SomeManager {
+  name = "hello";
+}
+
+export default new SomeManager();

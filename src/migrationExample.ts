@@ -1,3 +1,5 @@
+import { GenericMap } from "./6advancedTypes";
+
 export function cloneDeep<T>(obj: T): T;
 export function cloneDeep(obj: any) {
   return Object.keys(obj).reduce(
@@ -23,21 +25,13 @@ function mapObj2<T, K>(
 }
 
 type GetValues<T> = T extends { [key: string]: infer K } ? K : never; //Conditional types
-type GenericMap = { [key: string]: any }; //Type alias
-type Mapped<T, K> = T extends GenericMap ? { [Key in keyof T]: K } : never;
 
-function mapObj3<T extends GenericMap, K>(
-  obj: T,
+function mapObj3<T extends GenericMap<any>, K>(
+  obj: T, //Mapped types
   fnDo: (element: GetValues<T>) => K
-): { [key in keyof T]: K } {
+): { [Key in keyof T]: K } {
   const arrMapped = Object.keys(obj).map((key) => [key, fnDo(obj[key])]);
   return Object.fromEntries(arrMapped);
 }
 
-function mapObj4<T extends GenericMap, K>(
-  obj: T,
-  fnDo: (element: GetValues<T>) => K
-): Mapped<T, K> {
-  const arrMapped = Object.keys(obj).map((key) => [key, fnDo(obj[key])]);
-  return Object.fromEntries(arrMapped);
-}
+const result = mapObj3({ a: 10 }, (a) => a + "hello");
