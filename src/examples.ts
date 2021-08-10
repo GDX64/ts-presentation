@@ -123,14 +123,15 @@ interface AnotherPoint {
   y: number;
 }
 
-declare function takePoint(p: Point): number;
+// declare function takePoint(p: Point): number;
 
-const point = { x: 10, y: 10, z: 20 } as Point;
-const anotherPoint = { x: 10, y: 10, z: 20 } as AnotherPoint;
-takePoint(point);
-takePoint(anotherPoint);
+// const point = { x: 10, y: 10, z: 20 } as Point;
+// const anotherPoint = { x: 10, y: 10, z: 20 } as AnotherPoint;
+// takePoint(point);
+// takePoint(anotherPoint);
 
 //Migration
 
 const objCloned = cloneDeep({ a: [1, 2, 3] });
 const mapped = mapObj({ a: 10, b: 10 }, (x) => "hello");
+console.log(mapped);
