@@ -1,62 +1,47 @@
-interface Monster {
-  hp: number;
-  attack(enemy: Monster): void;
+interface Lobisomi {
+  name: string;
+  attack(): void;
 }
 
-interface Human {
-  talk(word: string): void;
+//Parametric types
+
+type MonoFunc<T> = (x: T) => T;
+type MyMonoFunc = MonoFunc<number>;
+function helloMono(fn: MonoFunc<string>) {
+  return fn("hello");
 }
 
-interface LobiSomi extends Monster, Human {}
+//Conditional types
 
-class WereWof implements LobiSomi {
-  hp = 10;
-  constructor(public name: string) {}
-  attack(enemy: Monster) {}
-  talk(word: string) {
-    console.log(word);
-  }
-}
+type IsLobisomi<T> = T extends Lobisomi ? true : false;
+type Lobitest = IsLobisomi<{ attack(): void; name: string }>;
 
-type NameOf<T extends { name: any }> = T["name"];
-type LobiName = NameOf<WereWof>;
+// Infer
 
-type HasName<T> = T extends { name: infer A } ? A : never;
-type WereWolfHasName = HasName<WereWof>;
-type LobiSomiHasName = HasName<LobiSomi>;
-
-const wereWofName: WereWolfHasName = "Wof :3";
-const lobiSomiName: LobiSomiHasName = "Lobi :(";
+type NameWhat<T> = T extends { name: infer A } ? A : never;
+type WhatKindOfName = NameWhat<{ name: number }>;
+type WhatKindOfName2 = NameWhat<{ hello: number }>;
 
 //Mapped types
 
 const objMap: { [key: string]: number } = { x: 10, y: 10 };
-type LobiMap = { [key in keyof LobiSomi]: key };
-type LobiMapString = {
-  [key in keyof LobiSomi as LobiSomi[key] extends number ? key : never]: string;
+objMap.hello = 10;
+const result = objMap.askdfad;
+const arrResult = [10][10];
+
+type LobiMap = { [key in keyof Lobisomi]: key };
+
+type Filter<T, Keys extends keyof T> = {
+  [K in Keys]: T[K];
 };
 
-function mapLobi(lobiSomi: LobiSomi): LobiMap {
-  const lobiEntries = Object.keys(lobiSomi).map((key) => [key, key]);
-  return Object.fromEntries(lobiEntries);
+type LobiFiltered = Filter<Lobisomi, "attack" | "name">;
+
+type Filtered = Filter<Lobisomi, "attack">;
+
+export function helloThere<T extends number | string>(arg: T) {
+  return arg;
 }
 
-function mapStringLobiProps(lobiSomi: LobiSomi): LobiMapString {
-  const lobiEntries = Object.entries(lobiSomi)
-    .filter(([key, value]) => typeof value === "number")
-    .map(([key, value]) => [key, `${value}`]);
-
-  return Object.fromEntries(lobiEntries);
-}
-
-const lobi: LobiSomi = {
-  hp: 90,
-  talk() {
-    console.log("Howl");
-  },
-  attack() {
-    console.log("Attacc");
-  },
-};
-const lobiMap = mapLobi(lobi);
-const lobiMapString = mapStringLobiProps(lobi);
+//Roubei
+type A = Pick<Lobisomi, "attack">;
