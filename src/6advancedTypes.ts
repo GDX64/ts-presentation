@@ -3,44 +3,58 @@ interface Lobisomi {
   attack(): void;
 }
 
-//Parametric types
+interface Monster {
+  name: number;
+  strength: number;
+}
 
-type MonoFunc<T> = (x: T) => T;
-type MyMonoFunc = MonoFunc<number>;
-function helloMono(fn: MonoFunc<string>) {
+//Algebraic DataTypes
+
+type LobiMonster = Lobisomi & Monster;
+function testLobiMonster(lm: LobiMonster) {
+  return lm.strength;
+}
+
+function testLobiOrMonster(LobiOrMonster: Lobisomi | Monster) {
+  return LobiOrMonster.name;
+}
+
+//Type indexing
+
+type LobiName = Lobisomi["name"];
+
+//Parametric types
+type Monofunc<T> = (x: T) => T;
+type NumFunc = Monofunc<number>;
+export function testMono(fn: Monofunc<string>) {
   return fn("hello");
 }
 
 //Conditional types
 
 type IsLobisomi<T> = T extends Lobisomi ? true : false;
-type Lobitest = IsLobisomi<{ attack(): void; name: string }>;
+type LobiIs = IsLobisomi<{ name: 10 }>;
+export type NotFunction<T> = T extends Function ? never : T;
+type NotFn = NotFunction<() => 10>;
 
 // Infer
 
-type NameWhat<T> = T extends { name: infer A } ? A : never;
-type WhatKindOfName = NameWhat<{ name: number }>;
-type WhatKindOfName2 = NameWhat<{ hello: number }>;
+type Returns<T> = T extends (...args: any[]) => infer A ? A : never;
+type FromTestMono = Returns<typeof testMono>;
+type WhatName<T> = T extends { name: infer A } ? A : never;
+type TheName = WhatName<{ name: string }>;
 
 //Mapped types
 
 export type GenericMap<T> = { [key: string]: T };
-const objMap: GenericMap<number> = { x: 10, y: 10 };
-objMap.hello = 10;
-const result = objMap.askdfad;
-const arrResult = [10][10];
+const objMap: GenericMap<number> = { a: 10, b: 5 };
+objMap.hello = 15;
+const value = objMap.asdfhjka;
+const arrValue = [10][10];
 
-type LobiMap = { [key in keyof Lobisomi]: key };
+type Lobimap = { [Key in keyof Lobisomi]: number };
 
-type Filter<T, Keys extends keyof T> = {
-  [K in Keys]: T[K];
-};
+type Filter<T, Keys extends keyof T> = { [Key in Keys]: T[Key] };
 
-type LobiFiltered = Filter<Lobisomi, "attack" | "name">;
-
-type Filtered = Filter<Lobisomi, "attack">;
-
-export type Mapped<T, K> = { [Key in keyof T]: K };
-
+type OnlyName = Filter<Lobisomi, "name" | "attack">;
 //Roubei
-type A = Pick<Lobisomi, "attack">;

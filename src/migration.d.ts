@@ -1,15 +1,18 @@
-import type { GenericMap, Mapped } from "./6advancedTypes";
-type GetValues<T> = T extends { [key: string]: infer K } ? K : never; //Conditional types
+import type { GenericMap, NotFunction } from "./6advancedTypes";
 
-export function cloneDeep<T>(obj: T): T;
+export function cloneDeep<T extends GenericMap<any>>(obj: NotFunction<T>): T;
+export function cloneDeep<T extends []>(obj: T): T;
 
-export function mapObj<T extends GenericMap, K>(
+type GetMapValues<T> = T extends GenericMap<infer A> ? A : never;
+
+export function mapObj<T extends GenericMap<any>, K>(
   obj: T,
-  fnDo: (el: GetValues<T>) => K
-): Mapped<T, K>;
+  fnDo: (x: GetMapValues<T>) => K
+): { [Key in keyof T]: K };
 
 class SomeManager {
-  name: string;
+  name: "hello";
 }
 
-export default {} as SomeManager;
+declare const expDefault: SomeManager;
+export default expDefault;
