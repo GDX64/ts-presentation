@@ -8,3 +8,7 @@ declare module "*.html" {
   const exp: string;
   export default exp;
 }
+
+interface ObjectConstructor {
+  keys<T>(value: T): (keyof T)[];
+}
